@@ -17,6 +17,8 @@ public class FieldManager : MonoBehaviour
 
     private int diceTotal;
 
+    private bool readyToRoll = true;
+
     private void Awake()
     {
         
@@ -46,8 +48,11 @@ public class FieldManager : MonoBehaviour
     {
         if (diceList != null)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && readyToRoll)
             {
+                // prevent multiple rolls
+                readyToRoll = false;
+
                 foreach (GameObject die in diceList) 
                 {
                     RollDie(die);
@@ -61,6 +66,7 @@ public class FieldManager : MonoBehaviour
     // Waits for and gets the roll total for the dice
     IEnumerator WaitForResults()
     {
+
         // small delay to allow dice to start rolling to prevent reading the previous roll immediately
         yield return new WaitForSeconds(0.25f);
 
@@ -98,39 +104,44 @@ public class FieldManager : MonoBehaviour
     {
         switch (diceNum)
         {
+            case 2:
+                Debug.Log("<color=red>OUT! / DOUBLE-PLAY!</color>");
+                break;
             case 3:
-                Debug.Log("<color=green>Triple</color>");
+                Debug.Log("<color=green>Triple!</color>");
                 break;
             case 4:
-                Debug.Log("<color=red>OUT</color>");
+                Debug.Log("<color=red>OUT!</color>");
                 break;
             case 5:
-                Debug.Log("<color=red>OUT</color>");
+                Debug.Log("<color=red>OUT!</color>");
                 break;
             case 6:
-                Debug.Log("<color=green>Simple</color>");
+                Debug.Log("<color=green>Single!</color>");
                 break;
             case 7:
-                Debug.Log("<color=red>OUT</color>");
+                Debug.Log("<color=red>OUT!</color>");
                 break;
             case 8:
-                Debug.Log("<color=red>OUT</color>");
+                Debug.Log("<color=red>OUT!</color>");
                 break;
             case 9:
-                Debug.Log("<color=green>Double</color>");
+                Debug.Log("<color=green>Double!</color>");
                 break;
             case 10:
-                Debug.Log("<color=red>OUT</color>");
+                Debug.Log("<color=red>OUT!</color>");
                 break;
             case 11:
-                Debug.Log("<color=red>OUT</color>");
+                Debug.Log("<color=red>OUT!</color>");
                 break;
             case 12:
-                Debug.Log("<color=green>Home-run</color>");
+                Debug.Log("<color=green>Home-Run!</color>");
                 break;
             default:
-                Debug.LogError("ERROR");
+                Debug.LogError("ERROR : Invalid Roll");
                 break;
         }
+
+        readyToRoll = true;
     }
 }
